@@ -8,7 +8,7 @@
     <ProjectGuid>{5C2D9FBF-E6E9-4E44-B2ED-B78F8DB89783}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CseNet</RootNamespace>
+    <RootNamespace>Google.CSE</RootNamespace>
     <AssemblyName>CseNet</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -32,9 +32,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -46,7 +48,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomSearchClient.cs" />
+    <Compile Include="GoogleCustomSearchConfigSection.cs" />
+    <Compile Include="OutputFormat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryParameters.cs" />
+    <Compile Include="RespnseParser.cs" />
+    <Compile Include="Result.cs" />
+    <Compile Include="ResultSet.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
