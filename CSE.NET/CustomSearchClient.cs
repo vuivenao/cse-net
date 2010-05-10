@@ -2,18 +2,15 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Net;
-    using System.Web;
     using System.Configuration;
     using System.Diagnostics;
+    using System.Net;
+    using System.Text;
+    using System.Web;
 
     public class CustomSearchClient
     {
         private const string GOOGLE_URL = "http://www.google.com/search?";
-
-        public string CseId { get; private set; }
 
         public CustomSearchClient()
         {
@@ -30,6 +27,8 @@
         {
             this.CseId = cseId;
         }
+
+        public string CseId { get; private set; }
 
         public SearchResult Search(QueryParameters queryParameters)
         {

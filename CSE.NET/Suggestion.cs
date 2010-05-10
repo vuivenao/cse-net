@@ -1,10 +1,5 @@
 ﻿namespace Google.CustomSearch
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
     public class Suggestion
     {
         public Suggestion()
