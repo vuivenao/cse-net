@@ -58,6 +58,7 @@
     <Compile Include="Result.cs" />
     <Compile Include="ResultCollection.cs" />
     <Compile Include="SearchResult.cs" />
+    <Compile Include="Suggestion.cs" />
     <Compile Include="SuggestionCollection.cs" />
   </ItemGroup>
   <ItemGroup>
