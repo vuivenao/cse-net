@@ -3,24 +3,33 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
 
-    public class FacetCollection : Dictionary<string, string>
+    public class FacetCollection : Collection<Facet>
     {
-        public new void Add(string label, string anchor)
+        public void Add(string label, string anchor)
         {
-            base.Add(label, anchor);
+            base.Add(new Facet(label, anchor));
         }
 
-        public void Add(Facet facet)
-        {
-            this.Add(facet.Label, facet.AnchorText);
-        }
+        //public void Add(Facet facet)
+        //{
+        //    this.Add(facet.Label, facet.AnchorText);
+        //}
 
-        public new string this[string label]
+        //public new string this[string label]
+        //{
+        //    get
+        //    {
+        //        return base[label];
+        //    }
+        //}
+
+        public Facet this[string label]
         {
             get
             {
-                return base[label];
+                return this.FirstOrDefault(f => f.Label == label);
             }
         }
     }
