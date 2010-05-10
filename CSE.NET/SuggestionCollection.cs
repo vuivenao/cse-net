@@ -2,24 +2,17 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
 
-    public class SuggestionCollection
+    public class SuggestionCollection : Collection<Suggestion>
     {
-        public string Label { get; internal set; }
-
-        public string Query { get; internal set; }
+        // TODO: Implement <see cref="http://msdn.microsoft.com/en-us/library/ms132397(VS.85).aspx"/>
 
         public SuggestionCollection()
         {
 
-        }
-
-        public SuggestionCollection(string label, string query)
-        {
-            this.Label = label;
-            this.Query = query;
         }
     }
 }
