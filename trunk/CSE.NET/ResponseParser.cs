@@ -1,4 +1,4 @@
-﻿namespace Google.CSE
+﻿namespace Google.CustomSearch
 {
     using System;
     using System.Collections.Generic;
@@ -8,9 +8,9 @@
     using System.Xml;
     using System.Xml.XPath;
 
-    internal class RespnseParser
+    internal class ResponseParser
     {
-        public void Parse(ResultSet results, Stream responseStream)
+        public void Parse(ResultCollection results, Stream responseStream)
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(responseStream);
@@ -20,6 +20,10 @@
             {
                 results.Add(this.ParseResult(iterator.Current));
             }
+
+            XPathNavigator timeNode = nav.SelectSingleNode("TM");
+            if (timeNode != null)
+                results.Time = timeNode.Value;
         }
 
         private Result ParseResult(XPathNavigator navigator)
