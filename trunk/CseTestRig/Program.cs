@@ -12,7 +12,7 @@
         {
             CustomSearchClient client = new CustomSearchClient();
 
-            ResultCollection results = client.Search(new QueryParameters()
+            SearchResult results = client.Search(new QueryParameters()
             {
                 Count = 10,
                 Format = OutputFormat.XmlNoDtd,
@@ -22,7 +22,12 @@
                 Encoding = "utf8"
             });
 
-            foreach (Result r in results)
+            Console.WriteLine(results.Title);
+            Console.WriteLine(results.Total + " results found in " + results.Time + " seconds");
+            Console.WriteLine("Displaying results " + results.StartIndex + " to " + results.EndIndex);
+            Console.WriteLine();
+
+            foreach (Result r in results.Results)
             {
                 FormatAndDisplay(r);
             }

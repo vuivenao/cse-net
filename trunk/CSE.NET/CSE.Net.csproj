@@ -48,6 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomSearchClient.cs" />
+    <Compile Include="Facet.cs" />
+    <Compile Include="FacetCollection.cs" />
     <Compile Include="GoogleCustomSearchConfigSection.cs" />
     <Compile Include="OutputFormat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -55,6 +57,7 @@
     <Compile Include="ResponseParser.cs" />
     <Compile Include="Result.cs" />
     <Compile Include="ResultCollection.cs" />
+    <Compile Include="SearchResult.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

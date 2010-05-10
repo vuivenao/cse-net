@@ -10,20 +10,67 @@
 
     internal class ResponseParser
     {
-        public void Parse(ResultCollection results, Stream responseStream)
+        public void Parse(SearchResult result, Stream responseStream)
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(responseStream);
             XPathNavigator nav = doc.CreateNavigator();
+
+            this.ParseResponseProperties(result, nav);
+
+            // Process the results
             XPathNodeIterator iterator = nav.Select("/GSP/RES/R");
             while (iterator.MoveNext())
             {
-                results.Add(this.ParseResult(iterator.Current));
+                result.Results.Add(this.ParseResult(iterator.Current));
+            }
+        }
+
+        private void ParseResponseProperties(SearchResult result, XPathNavigator nav)
+        {
+            XPathNavigator timeNode = nav.SelectSingleNode("/GSP/TM");
+            if (timeNode != null)
+                result.Time = timeNode.Value;
+
+            XPathNavigator titleNode = nav.SelectSingleNode("/GSP/Context/title");
+            if (titleNode != null)
+                result.Title = titleNode.Value;
+
+            XPathNavigator resultContainer = nav.SelectSingleNode("/GSP/RES");
+            int startIndex;
+            if (int.TryParse(resultContainer.GetAttribute("SN", string.Empty), out startIndex))
+            {
+                result.StartIndex = startIndex;
             }
 
-            XPathNavigator timeNode = nav.SelectSingleNode("TM");
-            if (timeNode != null)
-                results.Time = timeNode.Value;
+            int endIndex;
+            if (int.TryParse(resultContainer.GetAttribute("EN", string.Empty), out endIndex))
+            {
+                result.EndIndex = endIndex;
+            }
+
+            XPathNavigator totalNode = resultContainer.SelectSingleNode("M");
+            if (totalNode != null)
+            {
+                int total;
+                if (int.TryParse(totalNode.Value, out total))
+                {
+                    result.Total = total;
+                }
+            }
+
+            this.ParseFacets(result, nav);
+        }
+
+        private void ParseFacets(SearchResult result, XPathNavigator nav)
+        {
+            XPathNodeIterator facets = nav.Select("Context/Facet/FacetItem");
+            while (facets.MoveNext())
+            {
+                string label = facets.Current.SelectSingleNode("label").Value;
+                string anchor = facets.Current.SelectSingleNode("anchor_text").Value;
+                result.Facets.Add(label, anchor);
+            }
         }
 
         private Result ParseResult(XPathNavigator navigator)

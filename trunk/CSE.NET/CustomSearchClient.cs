@@ -30,24 +30,24 @@
             this.CseId = cseId;
         }
 
-        public ResultCollection Search(QueryParameters queryParameters)
+        public SearchResult Search(QueryParameters queryParameters)
         {
             Uri requestUri = this.FormatRequest(queryParameters);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(requestUri);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            ResultCollection retval = this.ProcessResponse(queryParameters, response);
-            return retval;
+            return this.ProcessResponse(queryParameters, response);
         }
 
-        private ResultCollection ProcessResponse(QueryParameters queryParameters, HttpWebResponse response)
+        private SearchResult ProcessResponse(QueryParameters queryParameters, HttpWebResponse response)
         {
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 throw new WebException("The request was borked");
             }
 
-            ResultCollection retval = new ResultCollection(queryParameters);
+            SearchResult retval = new SearchResult(queryParameters);
             new ResponseParser().Parse(retval, response.GetResponseStream());
+            
             return retval;
         }
 
