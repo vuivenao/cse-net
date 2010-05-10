@@ -67,7 +67,20 @@
                 }
             }
 
+            this.ParseSpellings(result, nav);
+
             this.ParseFacets(result, nav);
+        }
+
+        private void ParseSpellings(SearchResult result, XPathNavigator nav)
+        {
+            XPathNodeIterator spellings = nav.Select("/GSP/Spelling/Suggestion");
+            while (spellings.MoveNext())
+            {
+                string query = spellings.Current.GetAttribute("q", string.Empty);
+                string suggestion = spellings.Current.Value;
+                result.Suggestions.Add(new Suggestion(suggestion, query));
+            }
         }
 
         private void ParseFacets(SearchResult result, XPathNavigator nav)
