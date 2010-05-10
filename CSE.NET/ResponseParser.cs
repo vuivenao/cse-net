@@ -58,6 +58,20 @@
                     result.EndIndex = endIndex;
                 }
 
+                // Next and previous URLs
+
+                XPathNavigator navigation = resultContainer.SelectSingleNode("NB");
+                if (null != navigation)
+                {
+                    XPathNavigator nextLink = navigation.SelectSingleNode("NU");
+                    if (null != nextLink)
+                        result.NextPageLink = nextLink.Value;
+
+                    XPathNavigator previousLink = navigation.SelectSingleNode("NP");
+                    if (null != previousLink)
+                        result.PreviousPageLink = previousLink.Value;
+                }
+
                 XPathNavigator totalNode = resultContainer.SelectSingleNode("M");
                 if (totalNode != null)
                 {

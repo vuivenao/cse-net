@@ -36,9 +36,9 @@
 
         public string Title { get; internal set; }
 
-        public Uri NextPageLink { get; internal set; }
+        public string NextPageLink { get; internal set; }
 
-        public Uri PreviousPageLink { get; internal set; }
+        public string PreviousPageLink { get; internal set; }
 
         public ResultCollection Results { get; private set; }
 
