@@ -20,9 +20,12 @@
 
             // Process the results
             XPathNodeIterator iterator = nav.Select("/GSP/RES/R");
-            while (iterator.MoveNext())
+            if (iterator != null)
             {
-                result.Results.Add(this.ParseResult(iterator.Current));
+                while (iterator.MoveNext())
+                {
+                    result.Results.Add(this.ParseResult(iterator.Current));
+                }
             }
         }
 
@@ -37,25 +40,30 @@
                 result.Title = titleNode.Value;
 
             XPathNavigator resultContainer = nav.SelectSingleNode("/GSP/RES");
-            int startIndex;
-            if (int.TryParse(resultContainer.GetAttribute("SN", string.Empty), out startIndex))
+            if (resultContainer != null)
             {
-                result.StartIndex = startIndex;
-            }
-
-            int endIndex;
-            if (int.TryParse(resultContainer.GetAttribute("EN", string.Empty), out endIndex))
-            {
-                result.EndIndex = endIndex;
-            }
-
-            XPathNavigator totalNode = resultContainer.SelectSingleNode("M");
-            if (totalNode != null)
-            {
-                int total;
-                if (int.TryParse(totalNode.Value, out total))
+                int startIndex;
+                string start = resultContainer.GetAttribute("SN", string.Empty);
+                if (int.TryParse(start, out startIndex))
                 {
-                    result.Total = total;
+                    result.StartIndex = startIndex;
+                }
+
+                int endIndex;
+                string end = resultContainer.GetAttribute("EN", string.Empty);
+                if (int.TryParse(end, out endIndex))
+                {
+                    result.EndIndex = endIndex;
+                }
+
+                XPathNavigator totalNode = resultContainer.SelectSingleNode("M");
+                if (totalNode != null)
+                {
+                    int total;
+                    if (int.TryParse(totalNode.Value, out total))
+                    {
+                        result.Total = total;
+                    }
                 }
             }
 

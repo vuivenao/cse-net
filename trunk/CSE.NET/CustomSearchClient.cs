@@ -7,6 +7,7 @@
     using System.Net;
     using System.Web;
     using System.Configuration;
+    using System.Diagnostics;
 
     public class CustomSearchClient
     {
@@ -33,6 +34,7 @@
         public SearchResult Search(QueryParameters queryParameters)
         {
             Uri requestUri = this.FormatRequest(queryParameters);
+            Debug.WriteLine("Requesting " + requestUri.ToString(), "Google.CustomSearch");
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(requestUri);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             return this.ProcessResponse(queryParameters, response);
@@ -47,7 +49,7 @@
 
             SearchResult retval = new SearchResult(queryParameters);
             new ResponseParser().Parse(retval, response.GetResponseStream());
-            
+
             return retval;
         }
 
@@ -59,6 +61,11 @@
             queryParams.Add("cx", this.CseId);
             queryParams.Add("client", "google-csbe");
             queryParams.Add("q", queryParameters.SearchTerm);
+            if (queryParameters.Filter != null)
+            {
+                queryParams["q"] += "+more:" + queryParameters.Filter.Label;
+            }
+
             queryParams.Add("num", queryParameters.Count.ToString());
             queryParams.Add("start", queryParameters.Start.ToString());
 

@@ -9,5 +9,13 @@
         public string Label { get; internal set; }
 
         public string AnchorText { get; internal set; }
+
+        public Facet() { }
+
+        public Facet(string label, string anchorText)
+        {
+            this.Label = label;
+            this.AnchorText = anchorText;
+        }
     }
 }
