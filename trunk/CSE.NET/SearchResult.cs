@@ -11,6 +11,8 @@ namespace Google.CustomSearch
 
         public int EndIndex { get; internal set; }
 
+        public bool Exact { get; internal set; }
+
         public int Total { get; internal set; }
 
         public string Time { get; internal set; }

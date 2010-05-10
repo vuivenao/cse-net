@@ -42,6 +42,9 @@
             XPathNavigator resultContainer = nav.SelectSingleNode("/GSP/RES");
             if (resultContainer != null)
             {
+                // See http://www.google.com/cse/docs/resultsxml.html#results_xml_tag_XT
+                result.Exact = resultContainer.SelectSingleNode("XT") != null;
+
                 int startIndex;
                 string start = resultContainer.GetAttribute("SN", string.Empty);
                 if (int.TryParse(start, out startIndex))
@@ -72,12 +75,16 @@
 
         private void ParseFacets(SearchResult result, XPathNavigator nav)
         {
-            XPathNodeIterator facets = nav.Select("Context/Facet/FacetItem");
+            XPathNodeIterator facets = nav.Select("/GSP/Context/Facet/FacetItem");
             while (facets.MoveNext())
             {
                 string label = facets.Current.SelectSingleNode("label").Value;
                 string anchor = facets.Current.SelectSingleNode("anchor_text").Value;
-                result.Facets.Add(label, anchor);
+                result.Facets.Add(new Facet(result.Parameters)
+                {
+                    Label = label,
+                    AnchorText = anchor
+                });
             }
         }
 
