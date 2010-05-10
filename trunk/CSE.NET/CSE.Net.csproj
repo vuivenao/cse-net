@@ -58,6 +58,10 @@
     <Compile Include="Result.cs" />
     <Compile Include="ResultCollection.cs" />
     <Compile Include="SearchResult.cs" />
+    <Compile Include="SuggestionCollection.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CSE.NET.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

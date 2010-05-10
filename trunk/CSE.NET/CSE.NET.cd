@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Google.CustomSearch.CustomSearchClient" Collapsed="true">
+    <Position X="6.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAQAAAAAAAAAAgAAgAgAAA=</HashCode>
+      <FileName>CustomSearchClient.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Google.CustomSearch.SearchResult" Collapsed="true">
+    <Position X="10.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAEAAAAAAAAAACCACQIAAAIAAAAABAQA=</HashCode>
+      <FileName>SearchResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Google.CustomSearch.Facet" Collapsed="true">
+    <Position X="8.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAEgAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Facet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Google.CustomSearch.FacetCollection" Collapsed="true">
+    <Position X="10.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FacetCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Google.CustomSearch.GoogleCustomSearchConfigSection" Collapsed="true">
+    <Position X="6.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GoogleCustomSearchConfigSection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Google.CustomSearch.QueryParameters" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAACAAAAAIAAAAAAQAgBgAAAAIAAAAAAAAABA=</HashCode>
+      <FileName>QueryParameters.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Google.CustomSearch.ResponseParser" Collapsed="true">
+    <Position X="10.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAQAAAAAAIAABAAAAAAAAAAA=</HashCode>
+      <FileName>ResponseParser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Google.CustomSearch.Result" Collapsed="true">
+    <Position X="6.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAQAAABAAAEAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Result.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Google.CustomSearch.ResultCollection" Collapsed="true">
+    <Position X="8.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ResultCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Google.CustomSearch.OutputFormat" Collapsed="true">
+    <Position X="6.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OutputFormat.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

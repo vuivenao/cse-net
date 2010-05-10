@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Google.CustomSearch
+﻿namespace Google.CustomSearch
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
     public class SearchResult
     {
         public int StartIndex { get; internal set; }
@@ -29,10 +29,13 @@ namespace Google.CustomSearch
 
         public QueryParameters Parameters { get; internal set; }
 
+        public SuggestionCollection Suggestions { get; internal set; }
+
         internal SearchResult()
         {
             this.Facets = new FacetCollection();
             this.Results = new ResultCollection();
+            this.Suggestions = new SuggestionCollection();
         }
 
         internal SearchResult(QueryParameters parameters)
