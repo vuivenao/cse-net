@@ -27,6 +27,14 @@
             Console.WriteLine("Displaying results " + results.StartIndex + " to " + results.EndIndex);
             Console.WriteLine();
 
+            Console.WriteLine("Facets");
+            foreach (Facet f in results.Facets)
+            {
+                Console.WriteLine(f.GetAvailableCount() + " results available for " + f.AnchorText);
+            }
+
+            Console.WriteLine();
+
             foreach (Result r in results.Results)
             {
                 FormatAndDisplay(r);
