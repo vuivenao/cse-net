@@ -3,7 +3,7 @@
     using System;
     using System.Configuration;
 
-    public class QueryParameters
+    public class QueryParameters : ICloneable
     {
         public int Start { get; set; }
 
@@ -35,5 +35,27 @@
 
             return section.CountPerPage;
         }
+
+        public QueryParameters Clone()
+        {
+            return new QueryParameters()
+            {
+                Count = this.Count,
+                Encoding = this.Encoding,
+                Filter = this.Filter,
+                Format = this.Format,
+                SearchTerm = this.SearchTerm,
+                Start = this.Start
+            };
+        }
+
+        #region ICloneable Members
+
+        object ICloneable.Clone()
+        {
+            return this.Clone();
+        }
+
+        #endregion
     }
 }
