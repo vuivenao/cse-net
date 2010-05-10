@@ -1,4 +1,4 @@
-﻿namespace Google.CSE
+﻿namespace Google.CustomSearch
 {
     using System;
     using System.Collections.Generic;
@@ -6,6 +6,7 @@
     using System.Text;
     using System.Net;
     using System.Web;
+    using System.Configuration;
 
     public class CustomSearchClient
     {
@@ -13,29 +14,40 @@
 
         public string CseId { get; private set; }
 
+        public CustomSearchClient()
+        {
+            GoogleCustomSearchConfigSection section = ConfigurationManager.GetSection("googleCustomSearch") as GoogleCustomSearchConfigSection;
+            if (section == null)
+            {
+                throw new NullReferenceException("The value 'null' was found where an instance of GoogleCustomSearchConfigSection was expected. Please check the applications config file and ensure thre is a googleCustomSearch configuration section.");
+            }
+
+            this.CseId = section.CseId;
+        }
+
         public CustomSearchClient(string cseId)
         {
             this.CseId = cseId;
         }
 
-        public ResultSet Search(QueryParameters queryParameters)
+        public ResultCollection Search(QueryParameters queryParameters)
         {
             Uri requestUri = this.FormatRequest(queryParameters);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(requestUri);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            ResultSet retval = this.ProcessResponse(queryParameters, response);
+            ResultCollection retval = this.ProcessResponse(queryParameters, response);
             return retval;
         }
 
-        private ResultSet ProcessResponse(QueryParameters queryParameters, HttpWebResponse response)
+        private ResultCollection ProcessResponse(QueryParameters queryParameters, HttpWebResponse response)
         {
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 throw new WebException("The request was borked");
             }
 
-            ResultSet retval = new ResultSet(queryParameters);
-            new RespnseParser().Parse(retval, response.GetResponseStream());
+            ResultCollection retval = new ResultCollection(queryParameters);
+            new ResponseParser().Parse(retval, response.GetResponseStream());
             return retval;
         }
 

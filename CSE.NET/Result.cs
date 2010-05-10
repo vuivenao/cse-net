@@ -1,4 +1,4 @@
-﻿namespace Google.CSE
+﻿namespace Google.CustomSearch
 {
     using System;
     using System.Collections.Generic;

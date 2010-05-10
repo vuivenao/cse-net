@@ -1,4 +1,4 @@
-﻿namespace Google.CSE
+﻿namespace Google.CustomSearch
 {
     using System;
     using System.Collections.Generic;
@@ -11,15 +11,15 @@
         [ConfigurationProperty("countPerPage", DefaultValue = 10)]
         public int CountPerPage
         {
-            get { return (int)this["CountPerPage"]; }
-            set { this["CountPerPage"] = value; }
+            get { return (int)this["countPerPage"]; }
+            set { this["countPerPage"] = value; }
         }
 
         [ConfigurationProperty("cseId", IsRequired = true)]
         public string CseId
         {
-            get { return (string)this["CseId"]; }
-            set { this["CseId"] = value; }
+            get { return (string)this["cseId"]; }
+            set { this["cseId"] = value; }
         }
     }
 }

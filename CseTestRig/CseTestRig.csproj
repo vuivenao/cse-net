@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5C2D9FBF-E6E9-4E44-B2ED-B78F8DB89783}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{80A4F171-4D40-4F1B-A610-E1EC8F16B306}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Google.CustomSearch</RootNamespace>
-    <AssemblyName>CseNet</AssemblyName>
+    <RootNamespace>CseTestRig</RootNamespace>
+    <AssemblyName>CseTestRig</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,11 +32,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -47,14 +45,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomSearchClient.cs" />
-    <Compile Include="GoogleCustomSearchConfigSection.cs" />
-    <Compile Include="OutputFormat.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueryParameters.cs" />
-    <Compile Include="ResponseParser.cs" />
-    <Compile Include="Result.cs" />
-    <Compile Include="ResultCollection.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CSE.NET\CSE.Net.csproj">
+      <Project>{5C2D9FBF-E6E9-4E44-B2ED-B78F8DB89783}</Project>
+      <Name>CSE.Net</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
