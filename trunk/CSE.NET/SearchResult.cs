@@ -28,6 +28,8 @@
 
         public bool Exact { get; internal set; }
 
+        public bool Filtered { get; internal set; }
+
         public int Total { get; internal set; }
 
         public string Time { get; internal set; }

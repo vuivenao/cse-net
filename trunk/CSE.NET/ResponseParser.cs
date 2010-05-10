@@ -42,6 +42,8 @@
                 // See http://www.google.com/cse/docs/resultsxml.html#results_xml_tag_XT
                 result.Exact = resultContainer.SelectSingleNode("XT") != null;
 
+                result.Filtered = resultContainer.SelectSingleNode("FI") != null;
+
                 int startIndex;
                 string start = resultContainer.GetAttribute("SN", string.Empty);
                 if (int.TryParse(start, out startIndex))
