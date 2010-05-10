@@ -28,5 +28,7 @@
         /// Gets an excerpt for a search result that shows query terms highlighted in bold. Line breaks are included in the excerpt for proper text wrapping.
         /// </summary>
         public string Excerpt { get; internal set; }
+
+        public DateTime CrawlDate { get; internal set; }
     }
 }
