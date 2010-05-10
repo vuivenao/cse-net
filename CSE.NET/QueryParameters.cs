@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Google.CustomSearch
+﻿namespace Google.CustomSearch
 {
+    using System;
+    using System.Configuration;
+
     public class QueryParameters
     {
         public int Start { get; set; }
@@ -23,6 +21,19 @@ namespace Google.CustomSearch
         public QueryParameters()
         {
             this.Format = OutputFormat.XmlNoDtd;
+            this.Count = this.GetCountFromConfig();
+        }
+
+        private int GetCountFromConfig()
+        {
+            GoogleCustomSearchConfigSection section = ConfigurationManager.GetSection("googleCustomSearch") as GoogleCustomSearchConfigSection;
+            if (section == null)
+            {
+                // TODO: Throw the proper exception
+                throw new Exception("needs the section in the config");
+            }
+
+            return section.CountPerPage;
         }
     }
 }
