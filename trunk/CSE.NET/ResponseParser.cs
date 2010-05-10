@@ -4,6 +4,8 @@
     using System.IO;
     using System.Xml;
     using System.Xml.XPath;
+    using System.Threading;
+    using System.Globalization;
 
     internal class ResponseParser
     {
@@ -59,7 +61,6 @@
                 }
 
                 // Next and previous URLs
-
                 XPathNavigator navigation = resultContainer.SelectSingleNode("NB");
                 if (null != navigation)
                 {
@@ -116,7 +117,12 @@
 
         private Result ParseResult(XPathNavigator navigator)
         {
-            return new Result()
+            XPathNavigator crawlNode = navigator.SelectSingleNode("CRAWLDATE");
+            string crawlDate = string.Empty;
+            if (null != crawlNode)
+                crawlDate = crawlNode.Value;
+
+            Result result = new Result()
             {
                 Id = int.Parse(navigator.GetAttribute("N", string.Empty)),
                 Title = navigator.SelectSingleNode("T").Value,
@@ -124,6 +130,14 @@
                 Uri = new Uri(navigator.SelectSingleNode("U").Value),
                 EscapedUrl = navigator.SelectSingleNode("UE").Value
             };
+
+            if (!string.IsNullOrEmpty(crawlDate))
+            {
+                // TODO: Needs to check if the date stamp from Google is UTC or PDT/EST or anything else for that matter.
+                result.CrawlDate = DateTime.Parse(crawlDate, new CultureInfo("en-US"), DateTimeStyles.AssumeUniversal);
+            }
+
+            return result;
         }
     }
 }
