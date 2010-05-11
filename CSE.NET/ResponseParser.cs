@@ -1,11 +1,10 @@
 ﻿namespace Google.CustomSearch
 {
     using System;
+    using System.Globalization;
     using System.IO;
     using System.Xml;
     using System.Xml.XPath;
-    using System.Threading;
-    using System.Globalization;
 
     internal class ResponseParser
     {
