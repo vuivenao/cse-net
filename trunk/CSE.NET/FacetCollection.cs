@@ -18,6 +18,14 @@
             base.Add(new Facet(label, anchor));
         }
 
+        public bool Contains(string label)
+        {
+            foreach (var item in this)
+                if (item.Label == label) return true;
+
+            return false;
+        }
+
         //public void Add(Facet facet)
         //{
         //    this.Add(facet.Label, facet.AnchorText);
