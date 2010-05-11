@@ -12,6 +12,11 @@
     {
         private const string GOOGLE_URL = "http://www.google.com/search?";
 
+        static CustomSearchClient()
+        {
+            CustomSearchClient.Count = GetCountFromConfig();
+        }
+
         public CustomSearchClient()
         {
             GoogleCustomSearchConfigSection section = ConfigurationManager.GetSection("googleCustomSearch") as GoogleCustomSearchConfigSection;
@@ -28,6 +33,8 @@
             this.CseId = cseId;
         }
 
+        public static int Count { get; private set; }
+
         public string CseId { get; private set; }
 
         public SearchResult Search(QueryParameters queryParameters)
@@ -37,6 +44,18 @@
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(requestUri);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             return this.ProcessResponse(queryParameters, response);
+        }
+
+        private static int GetCountFromConfig()
+        {
+            GoogleCustomSearchConfigSection section = ConfigurationManager.GetSection("googleCustomSearch") as GoogleCustomSearchConfigSection;
+            if (section == null)
+            {
+                // TODO: Throw the proper exception
+                throw new Exception("needs the section in the config");
+            }
+
+            return section.CountPerPage;
         }
 
         private SearchResult ProcessResponse(QueryParameters queryParameters, HttpWebResponse response)

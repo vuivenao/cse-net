@@ -66,6 +66,16 @@
         <Types>
          <Type Name="CustomSearchClient">
           <Members>
+           <Member Name="#.ctor()">
+            <Messages>
+             <Message TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201" Created="2010-05-10 10:36:45Z">
+              <Issue Name="Reserved">
+               <Item>'CustomSearchClient.CustomSearchClient()'</Item>
+               <Item>'NullReferenceException'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
            <Member Name="#.ctor(System.String)">
             <Messages>
              <Message Id="cse" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2010-05-09 13:28:40Z">
@@ -114,6 +124,19 @@
            </Member>
           </Members>
          </Type>
+         <Type Name="Facet">
+          <Members>
+           <Member Name="#GetAvailableCount()">
+            <Messages>
+             <Message TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024" Created="2010-05-10 13:26:01Z">
+              <Issue Certainty="50">
+               <Item>'Facet.GetAvailableCount()'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
          <Type Name="GoogleCustomSearchConfigSection">
           <Members>
            <Member Name="#CseId">
@@ -128,8 +151,36 @@
            </Member>
           </Members>
          </Type>
+         <Type Name="QueryParameters">
+          <Members>
+           <Member Name="#GetCountFromConfig()">
+            <Messages>
+             <Message TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201" Created="2010-05-10 13:26:01Z">
+              <Issue Name="TooGeneric">
+               <Item>'QueryParameters.GetCountFromConfig()'</Item>
+               <Item>'Exception'</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2010-05-10 13:26:01Z" FixCategory="NonBreaking">
+              <Issue>
+               <Item>'QueryParameters.GetCountFromConfig()'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
          <Type Name="ResponseParser">
           <Members>
+           <Member Name="#ParseFacets(Google.CustomSearch.SearchResult,System.Xml.XPath.XPathNavigator)">
+            <Messages>
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2010-05-10 10:36:45Z" FixCategory="NonBreaking">
+              <Issue>
+               <Item>'ResponseParser.ParseFacets(SearchResult, XPathNavigator)'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
            <Member Name="#ParseResult(System.Xml.XPath.XPathNavigator)">
             <Messages>
              <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2010-05-09 13:28:40Z" FixCategory="NonBreaking">
@@ -161,15 +212,28 @@
            </Member>
           </Members>
          </Type>
-         <Type Name="ResultCollection">
+         <Type Name="SearchResult">
           <Members>
-           <Member Name="#Context">
+           <Member Name="#NextPageLink">
             <Accessors>
-             <Accessor Name="#set_Context(System.String)">
+             <Accessor Name="#set_NextPageLink(System.Uri)">
               <Messages>
-               <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Created="2010-05-09 13:34:58Z">
+               <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Created="2010-05-10 10:36:45Z">
                 <Issue>
-                 <Item>'ResultCollection.Context.set(string)'</Item>
+                 <Item>'SearchResult.NextPageLink.set(Uri)'</Item>
+                </Issue>
+               </Message>
+              </Messages>
+             </Accessor>
+            </Accessors>
+           </Member>
+           <Member Name="#PreviousPageLink">
+            <Accessors>
+             <Accessor Name="#set_PreviousPageLink(System.Uri)">
+              <Messages>
+               <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Created="2010-05-10 10:36:45Z">
+                <Issue>
+                 <Item>'SearchResult.PreviousPageLink.set(Uri)'</Item>
                 </Issue>
                </Message>
               </Messages>
@@ -192,6 +256,10 @@
    <Rule TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811">
     <Resolution Name="Default">{0} appears to have no upstream public or protected callers.</Resolution>
    </Rule>
+   <Rule TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201">
+    <Resolution Name="Reserved">{0} creates an exception of type {1}, an exception type that is reserved by the runtime and should never be raised by managed code. If this exception instance might be thrown, use a different exception type.</Resolution>
+    <Resolution Name="TooGeneric">{0} creates an exception of type {1}, an exception type that is not sufficiently specific and should never be raised by user code. If this exception instance might be thrown, use a different exception type.</Resolution>
+   </Rule>
    <Rule TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704">
     <Resolution Name="Assembly">Correct the spelling of '{0}' in assembly name {1}.</Resolution>
     <Resolution Name="Member">Correct the spelling of '{0}' in member name {1} or remove it entirely if it represents any sort of Hungarian notation.</Resolution>
@@ -208,6 +276,9 @@
    </Rule>
    <Rule TypeName="UriPropertiesShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1056">
     <Resolution Name="Default">Change the type of property {0} from string to System.Uri.</Resolution>
+   </Rule>
+   <Rule TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024">
+    <Resolution Name="Default">Change {0} to a property if appropriate.</Resolution>
    </Rule>
   </Rules>
  </FxCopReport>
