@@ -122,10 +122,8 @@
             if (null != crawlNode)
                 crawlDate = crawlNode.Value;
 
-            XPathNavigator mimeNode = navigator.SelectSingleNode("MIME");
-            string mimeType = "text/html";
-            if (null != mimeNode)
-                mimeType = mimeNode.Value;
+            string mimeType = navigator.GetAttribute("MIME", string.Empty);
+            if (string.IsNullOrEmpty(mimeType)) mimeType = "text/html";
 
             Result result = new Result()
             {
@@ -133,18 +131,14 @@
                 Title = navigator.SelectSingleNode("T").Value,
                 Excerpt = navigator.SelectSingleNode("S").Value,
                 Uri = new Uri(navigator.SelectSingleNode("U").Value),
-                EscapedUrl = navigator.SelectSingleNode("UE").Value
+                EscapedUrl = navigator.SelectSingleNode("UE").Value,
+                MimeType = new ContentType(mimeType)
             };
 
             if (!string.IsNullOrEmpty(crawlDate))
             {
                 // TODO: Needs to check if the date stamp from Google is UTC or PDT/EST or anything else for that matter.
                 result.CrawlDate = DateTime.Parse(crawlDate, new CultureInfo("en-US"), DateTimeStyles.AssumeUniversal);
-            }
-
-            if (!string.IsNullOrEmpty(mimeType))
-            {
-                result.MimeType = new ContentType(mimeType);
             }
 
             return result;
