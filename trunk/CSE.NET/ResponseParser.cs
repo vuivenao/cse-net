@@ -3,6 +3,7 @@
     using System;
     using System.Globalization;
     using System.IO;
+    using System.Net.Mime;
     using System.Xml;
     using System.Xml.XPath;
 
@@ -121,6 +122,11 @@
             if (null != crawlNode)
                 crawlDate = crawlNode.Value;
 
+            XPathNavigator mimeNode = navigator.SelectSingleNode("MIME");
+            string mimeType = "text/html";
+            if (null != mimeNode)
+                mimeType = mimeNode.Value;
+
             Result result = new Result()
             {
                 Id = int.Parse(navigator.GetAttribute("N", string.Empty)),
@@ -134,6 +140,11 @@
             {
                 // TODO: Needs to check if the date stamp from Google is UTC or PDT/EST or anything else for that matter.
                 result.CrawlDate = DateTime.Parse(crawlDate, new CultureInfo("en-US"), DateTimeStyles.AssumeUniversal);
+            }
+
+            if (!string.IsNullOrEmpty(mimeType))
+            {
+                result.MimeType = new ContentType(mimeType);
             }
 
             return result;
