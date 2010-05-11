@@ -1,6 +1,7 @@
 ﻿namespace Google.CustomSearch
 {
     using System;
+    using System.Net.Mime;
 
     public class Result
     {
@@ -30,5 +31,7 @@
         public string Excerpt { get; internal set; }
 
         public DateTime CrawlDate { get; internal set; }
+
+        public ContentType MimeType { get; internal set; }
     }
 }
