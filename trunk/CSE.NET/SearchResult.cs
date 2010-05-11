@@ -1,6 +1,5 @@
 ﻿namespace Google.CustomSearch
 {
-    using System;
 
     public class SearchResult
     {
