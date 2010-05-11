@@ -1,9 +1,6 @@
 ﻿namespace CseTestRig
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using Google.CustomSearch;
 
     class Program
@@ -14,9 +11,9 @@
 
             SearchResult results = client.Search(new QueryParameters()
             {
-                Count = 10,
-                Format = OutputFormat.XmlNoDtd,
-                SearchTerm = "concrete",
+                Count = 20,
+                //Format = OutputFormat.XmlNoDtd,
+                SearchTerm = "concrette",
                 Start = 0,
                 // TODO: Possibly swap encoding for a built in type
                 Encoding = "utf8"
@@ -45,8 +42,8 @@
 
         private static void FormatAndDisplay(Result r)
         {
-            Console.WriteLine("Result " + r.Id);
-            Console.WriteLine(r.Title);
+            Console.WriteLine("Result " + r.Id + " of type " + r.MimeType.ToString());
+            Console.WriteLine(r.Title + " Crawled on " + r.CrawlDate.ToLongDateString());
             Console.WriteLine(r.Excerpt);
             Console.WriteLine(r.Uri);
             Console.WriteLine();
