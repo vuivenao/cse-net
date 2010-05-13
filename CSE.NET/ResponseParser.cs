@@ -7,8 +7,17 @@
     using System.Xml;
     using System.Xml.XPath;
 
+    /// <summary>
+    /// Utility class used to parse the response of a Google CSE request into a
+    /// Google.CustomSearch.SearchResult object.
+    /// </summary>
     internal class ResponseParser
     {
+        /// <summary>
+        /// Parses the given stream and populates the given SearchResult object.
+        /// </summary>
+        /// <param name="result">The Google.CustomSearch.SearchResult to be populated.</param>
+        /// <param name="responseStream">The stream containing the response from the CSE request.</param>
         public void Parse(SearchResult result, Stream responseStream)
         {
             XmlDocument doc = new XmlDocument();
@@ -28,6 +37,11 @@
             }
         }
 
+        /// <summary>
+        /// Parses the various properties from the XML document and populates the given SearchResult.
+        /// </summary>
+        /// <param name="result">The Google.CustomSearch.SearchResult to populate.</param>
+        /// <param name="nav">The XPathNavigator for the response document.</param>
         private void ParseResponseProperties(SearchResult result, XPathNavigator nav)
         {
             XPathNavigator timeNode = nav.SelectSingleNode("/GSP/TM");
@@ -89,6 +103,11 @@
             this.ParseFacets(result, nav);
         }
 
+        /// <summary>
+        /// Parses spelling suggestions from the CSE request into the Suggestions property of the given SearchResult object.
+        /// </summary>
+        /// <param name="result">The Google.CustomSearch.SearchResult object whos Suggestions property is to be populated.</param>
+        /// <param name="nav">THe XPathNavigator for the root of the response document.</param>
         private void ParseSpellings(SearchResult result, XPathNavigator nav)
         {
             XPathNodeIterator spellings = nav.Select("/GSP/Spelling/Suggestion");
@@ -100,6 +119,11 @@
             }
         }
 
+        /// <summary>
+        /// Parses the site labels from the CSE response.
+        /// </summary>
+        /// <param name="result">The Google.CustomSearch.SearchResult whos Facets property is to be populated.</param>
+        /// <param name="nav">THe XPathNavigator for the root of the response document.</param>
         private void ParseFacets(SearchResult result, XPathNavigator nav)
         {
             XPathNodeIterator facets = nav.Select("/GSP/Context/Facet/FacetItem");
@@ -115,13 +139,13 @@
             }
         }
 
+        /// <summary>
+        /// Parses a result node into a Google.CustomSearch.Result object.
+        /// </summary>
+        /// <param name="navigator">The XPathNavigator for the &lt;R&gt; node.</param>
+        /// <returns>Returns a populated Google.CustomSearch.Result object.</returns>
         private Result ParseResult(XPathNavigator navigator)
         {
-            XPathNavigator crawlNode = navigator.SelectSingleNode("CRAWLDATE");
-            string crawlDate = string.Empty;
-            if (null != crawlNode)
-                crawlDate = crawlNode.Value;
-
             string mimeType = navigator.GetAttribute("MIME", string.Empty);
             if (string.IsNullOrEmpty(mimeType)) mimeType = "text/html";
 
@@ -134,11 +158,20 @@
                 EscapedUrl = navigator.SelectSingleNode("UE").Value,
                 MimeType = new ContentType(mimeType)
             };
+            
+            XPathNavigator crawlNode = navigator.SelectSingleNode("CRAWLDATE");
+            string crawlDate = string.Empty;
+            if (null != crawlNode)
+                crawlDate = crawlNode.Value;
 
             if (!string.IsNullOrEmpty(crawlDate))
             {
-                // TODO: Needs to check if the date stamp from Google is UTC or PDT/EST or anything else for that matter.
-                result.CrawlDate = DateTime.Parse(crawlDate, new CultureInfo("en-US"), DateTimeStyles.AssumeUniversal);
+                DateTime crawlDateTime;
+                if (DateTime.TryParse(crawlDate, out crawlDateTime))
+                {
+                    // TODO: Needs to check if the date stamp from Google is UTC or PDT/EST or anything else for that matter.
+                    result.CrawlDate = DateTime.Parse(crawlDate, new CultureInfo("en-US"), DateTimeStyles.AssumeUniversal);
+                }
             }
 
             return result;
