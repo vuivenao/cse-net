@@ -107,7 +107,7 @@
             if (section == null)
             {
                 // TODO: Throw the proper exception
-                throw new Exception("needs the section in the config");
+                throw new ConfigurationErrorsException("The application configuration file must contain an 'googleCustomSearch' section");
             }
 
             return section.CountPerPage;
