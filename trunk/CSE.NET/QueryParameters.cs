@@ -49,6 +49,14 @@
         /// <see cref="http://www.google.com/cse/docs/resultsxml.html#results_xml_tag_label"/>
         public Facet Filter { get; set; }
 
+        // TODO: implement the as_dt parameter and update this documentation
+
+        /// <summary>
+        /// Gets or sets a URL that specifies that all search results should be pages from a given site. 
+        /// By setting the as_dt parameter, you can also use it to exclude pages from a given site from your search resutls.
+        /// </summary>
+        public Uri AdvancedSearchSite { get; set; }
+
         // TODO: Possibly swap encoding for a built in type
         
         /// <summary>
