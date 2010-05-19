@@ -163,6 +163,17 @@
                 queryParams.Add("output", "xml_no_dtd");
             }
 
+            // Special search options
+            bool firstType = true;
+            foreach (var pair in queryParameters.FileTypes)
+            {
+                string type = string.Format(" filetype:{0}", pair.Key.TrimStart('.'));
+                if (!pair.Value) type = " -" + type.TrimStart(); 
+                if (!firstType) type = " OR" + type;
+                queryParams["q"] += type;
+                firstType = false;
+            }
+
             // Advanced search options
             if (null != queryParameters.AdvancedSearchSite)
             {

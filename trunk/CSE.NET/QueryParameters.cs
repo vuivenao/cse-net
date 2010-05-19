@@ -2,6 +2,7 @@
 {
     using System;
     using System.Configuration;
+using System.Collections.Generic;
 
     /// <summary>
     /// Represents the parameters that can be used when making a search request.
@@ -15,6 +16,7 @@
         {
             this.Format = OutputFormat.XmlNoDtd;
             this.Count = CustomSearchClient.Count;
+            this.FileTypes = new Dictionary<string, bool>();
         }
 
         /// <summary>
@@ -56,6 +58,13 @@
         /// By setting the as_dt parameter, you can also use it to exclude pages from a given site from your search resutls.
         /// </summary>
         public Uri AdvancedSearchSite { get; set; }
+
+        /// <summary>
+        /// <para>Gets a list of filetypes with which to restrict the search results to documents with a particular file extension, such as ".pdf" or ".doc".</para>
+        /// Filetypes with a true value will be included, false will be excluded.
+        /// </summary>
+        public Dictionary<string, bool> FileTypes { get; private set; }
+
 
         // TODO: Possibly swap encoding for a built in type
         
