@@ -62,18 +62,5 @@
         /// Gets the QueryParameters that were used to generate the search to which this Facet is related.
         /// </summary>
         public QueryParameters Parameters { get; internal set; }
-
-        /// <summary>
-        /// Gets the number of results available for the current Facet object.
-        /// </summary>
-        /// <returns>Returns the number of available results for this Facet.</returns>
-        [Obsolete("I Dont think this should be used any more, maybe")]
-        public int GetAvailableCount()
-        {
-            QueryParameters temp = this.Parameters.Clone();
-            temp.Count = 100;
-            temp.Filter = this;
-            return new CustomSearchClient().Search(temp).Total;
-        }
     }
 }
