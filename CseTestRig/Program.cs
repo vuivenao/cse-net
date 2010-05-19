@@ -1,8 +1,8 @@
 ﻿namespace CseTestRig
 {
     using System;
-    using Google.CustomSearch;
     using System.Runtime.Remoting.Messaging;
+    using Google.CustomSearch;
 
     class Program
     {
@@ -28,7 +28,7 @@
             Console.WriteLine("Facets");
             foreach (Facet f in results.Facets)
             {
-                Console.WriteLine(f.GetAvailableCount() + " results available for " + f.AnchorText);
+                // Console.WriteLine(f.GetAvailableCount() + " results available for " + f.AnchorText);
                 var p = results.Parameters.Clone();
                 p.Filter = f;
                 client.SearchAsync(p, new AsyncCallback(Callback));
