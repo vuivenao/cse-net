@@ -163,6 +163,13 @@
                 queryParams.Add("output", "xml_no_dtd");
             }
 
+            // Advanced search options
+            if (null != queryParameters.AdvancedSearchSite)
+            {
+                queryParams.Add("as_sitesearch", queryParameters.AdvancedSearchSite.ToString());
+            }
+
+
             foreach (var pair in queryParams)
             {
                 url.Append(pair.Key + "=" + HttpUtility.UrlEncode(pair.Value) + "&");
