@@ -154,7 +154,7 @@
             queryParams.Add("num", queryParameters.Count.ToString());
             queryParams.Add("start", queryParameters.Start.ToString());
 
-            if (queryParameters.Format == OutputFormat.Xml)
+            if (OutputFormat.Xml == queryParameters.Format)
             {
                 queryParams.Add("output", "xml");
             }
