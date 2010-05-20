@@ -2,7 +2,7 @@
 {
     using System;
     using System.Configuration;
-using System.Collections.Generic;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the parameters that can be used when making a search request.
@@ -14,17 +14,11 @@ using System.Collections.Generic;
         /// </summary>
         public QueryParameters()
         {
-            this.Format = OutputFormat.XmlNoDtd;
             this.Count = CustomSearchClient.Count;
-            this.FileTypes = new Dictionary<string, bool>();
+            this.FileTypes = new Dictionary<string, bool>(); 
+            this.Format = OutputFormat.XmlNoDtd;
+            this.Safe = SafeSearch.Off;
         }
-
-        /// <summary>
-        /// Gets or sets the start parameter which indicates the first matching result that should be included in the search results.
-        /// The start parameter uses a zero-based index, meaning the first result is 0, the second result is 1 and so forth.
-        /// </summary>
-        /// <see cref="http://www.google.com/cse/docs/resultsxml.html#startsp"/>
-        public int Start { get; set; }
 
         /// <summary>
         /// Gets or sets the Count parameter which identifies the number of search results to return.
@@ -36,6 +30,20 @@ using System.Collections.Generic;
         public int Count { get; set; }
 
         /// <summary>
+        /// Gets or sets the Filter property.
+        /// TODO: Invent this documentation.
+        /// </summary>
+        /// <see cref="http://www.google.com/cse/docs/resultsxml.html#results_xml_tag_label"/>
+        public Facet Filter { get; set; }
+
+        /// <summary>
+        /// Gets or sets the safe parameter indicates how search results should be filtered for adult and pornographic content. 
+        /// The default value for the safe parameter is off.
+        /// See the <see cref="http://www.google.com/cse/docs/resultsxml.html#safeSearchLevels">Filtering Adult Content with SafeSearch</see> section for more details about this feature.
+        /// </summary>
+        public SafeSearch Safe { get; set; }
+
+        /// <summary>
         /// Gets or sets the SearchTerm parameter which specifies the search query entered by the user. 
         /// Even though this parameter is optional, you must specify a value for at least one 
         /// of the query parameters (as_epq, as_lq, as_oq, as_q, as_rq) to get search results.
@@ -45,11 +53,11 @@ using System.Collections.Generic;
         public string SearchTerm { get; set; }
 
         /// <summary>
-        /// Gets or sets the Filter property.
-        /// TODO: Invent this documentation.
+        /// Gets or sets the start parameter which indicates the first matching result that should be included in the search results.
+        /// The start parameter uses a zero-based index, meaning the first result is 0, the second result is 1 and so forth.
         /// </summary>
-        /// <see cref="http://www.google.com/cse/docs/resultsxml.html#results_xml_tag_label"/>
-        public Facet Filter { get; set; }
+        /// <see cref="http://www.google.com/cse/docs/resultsxml.html#startsp"/>
+        public int Start { get; set; }
 
         // TODO: implement the as_dt parameter and update this documentation
 
@@ -64,6 +72,8 @@ using System.Collections.Generic;
         /// Filetypes with a true value will be included, false will be excluded.
         /// </summary>
         public Dictionary<string, bool> FileTypes { get; private set; }
+
+
 
 
         // TODO: Possibly swap encoding for a built in type

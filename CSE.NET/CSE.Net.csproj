@@ -57,6 +57,7 @@
     <Compile Include="ResponseParser.cs" />
     <Compile Include="Result.cs" />
     <Compile Include="ResultCollection.cs" />
+    <Compile Include="SafeSearch.cs" />
     <Compile Include="SearchResult.cs" />
     <Compile Include="Suggestion.cs" />
     <Compile Include="SuggestionCollection.cs" />
