@@ -163,6 +163,17 @@
                 queryParams.Add("output", "xml_no_dtd");
             }
 
+            if (SafeSearch.Off != queryParameters.Safe)
+            {
+                string value = "medium";
+                if (SafeSearch.High == queryParameters.Safe)
+                {
+                    value = "high";
+                }
+
+                queryParams.Add("safe", value);
+            }
+
             // Special search options
             bool firstType = true;
             foreach (var pair in queryParameters.FileTypes)
