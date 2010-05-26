@@ -39,7 +39,7 @@
         /// </summary>
         public CustomSearchClient()
         {
-            GoogleCustomSearchConfigSection section = ConfigurationManager.GetSection("googleCustomSearch") as GoogleCustomSearchConfigSection;
+            GoogleCustomSearchSection section = ConfigurationManager.GetSection("googleCustomSearch") as GoogleCustomSearchSection;
             if (section == null)
             {
                 throw new NullReferenceException("The value 'null' was found where an instance of GoogleCustomSearchConfigSection was expected. Please check the applications config file and ensure thre is a googleCustomSearch configuration section.");
@@ -76,7 +76,6 @@
         public SearchResult Search(QueryParameters queryParameters)
         {
             Uri requestUri = this.FormatRequest(queryParameters);
-            Debug.WriteLine("Requesting " + requestUri.ToString(), "Google.CustomSearch");
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(requestUri);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             return this.ProcessResponse(queryParameters, response);
@@ -103,7 +102,7 @@
         /// <returns>Returns the number of resutls to return per search.</returns>
         private static int GetCountFromConfig()
         {
-            GoogleCustomSearchConfigSection section = ConfigurationManager.GetSection("googleCustomSearch") as GoogleCustomSearchConfigSection;
+            GoogleCustomSearchSection section = ConfigurationManager.GetSection("googleCustomSearch") as GoogleCustomSearchSection;
             if (section == null)
             {
                 // TODO: Throw the proper exception
@@ -136,63 +135,88 @@
         /// <summary>
         /// Generates the Uri to be used for the request to Google CSE.
         /// </summary>
-        /// <param name="queryParameters">The query parameters to format in the URL.</param>
+        /// <param name="input">The query parameters to format in the URL.</param>
         /// <returns>Returns a System.Uri to request the search results from Google CSE.</returns>
-        private Uri FormatRequest(QueryParameters queryParameters)
+        private Uri FormatRequest(QueryParameters input)
         {
             StringBuilder url = new StringBuilder(GOOGLE_URL);
-            Dictionary<string, string> queryParams = new Dictionary<string, string>();
+            Dictionary<string, string> queryParameters = new Dictionary<string, string>();
 
-            queryParams.Add("cx", this.CseID);
-            queryParams.Add("client", "google-csbe");
-            queryParams.Add("q", queryParameters.SearchTerm);
-            if (queryParameters.Filter != null)
+            queryParameters.Add("cx", this.CseID);
+            queryParameters.Add("client", "google-csbe");
+            queryParameters.Add("q", input.SearchTerm);
+            if (input.Filter != null)
             {
-                queryParams["q"] += "+more:" + queryParameters.Filter.Label;
+                queryParameters["q"] += "+more:" + input.Filter.Label;
             }
 
-            queryParams.Add("num", queryParameters.Count.ToString());
-            queryParams.Add("start", queryParameters.Start.ToString());
+            queryParameters.Add("num", input.Count.ToString());
+            queryParameters.Add("start", input.Start.ToString());
 
-            if (OutputFormat.Xml == queryParameters.Format)
+            if (OutputFormat.Xml == input.Format)
             {
-                queryParams.Add("output", "xml");
+                queryParameters.Add("output", "xml");
             }
             else
             {
-                queryParams.Add("output", "xml_no_dtd");
+                queryParameters.Add("output", "xml_no_dtd");
             }
 
-            if (SafeSearch.Off != queryParameters.Safe)
+            if (SafeSearch.Off != input.Safe)
             {
                 string value = "medium";
-                if (SafeSearch.High == queryParameters.Safe)
+                if (SafeSearch.High == input.Safe)
                 {
                     value = "high";
                 }
 
-                queryParams.Add("safe", value);
+                queryParameters.Add("safe", value);
             }
 
             // Special search options
             bool firstType = true;
-            foreach (var pair in queryParameters.FileTypes)
+            foreach (var pair in input.FileTypes)
             {
                 string type = string.Format(" filetype:{0}", pair.Key.TrimStart('.'));
                 if (!pair.Value) type = " -" + type.TrimStart(); 
                 if (!firstType) type = " OR" + type;
-                queryParams["q"] += type;
+                queryParameters["q"] += type;
                 firstType = false;
             }
 
             // Advanced search options
-            if (null != queryParameters.AdvancedSearchSite)
+            if (null != input.AdvancedSearchSite)
             {
-                queryParams.Add("as_sitesearch", queryParameters.AdvancedSearchSite.ToString());
+                queryParameters.Add("as_sitesearch", input.AdvancedSearchSite.ToString());
             }
 
+            if (null != input.AdvancedSearchSite)
+            {
+                string value = "i";
+                if (DomainInclusion.Exclude == input.AdvancedSearchDomainInclusion)
+                {
+                    value = "e";
+                }
 
-            foreach (var pair in queryParams)
+                queryParameters.Add("as_dt", value);
+            }
+
+            if (!string.IsNullOrEmpty(input.AdvancedSearchPhraseQuery))
+            {
+                queryParameters.Add("as_epq", input.AdvancedSearchPhraseQuery);
+            }
+
+            if (!string.IsNullOrEmpty(input.AdvancedSearchExcludePhraseQuery))
+            {
+                queryParameters.Add("as_eq", input.AdvancedSearchExcludePhraseQuery);
+            }
+
+            if (null != input.AdvancedSearchRequiredLink)
+            {
+                queryParameters.Add("as_lq", input.AdvancedSearchRequiredLink.ToString());
+            }
+
+            foreach (var pair in queryParameters)
             {
                 url.Append(pair.Key + "=" + HttpUtility.UrlEncode(pair.Value) + "&");
             }

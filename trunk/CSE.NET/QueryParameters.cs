@@ -1,7 +1,6 @@
 ﻿namespace Google.CustomSearch
 {
     using System;
-    using System.Configuration;
     using System.Collections.Generic;
 
     /// <summary>
@@ -46,8 +45,8 @@
         /// <summary>
         /// Gets or sets the SearchTerm parameter which specifies the search query entered by the user. 
         /// Even though this parameter is optional, you must specify a value for at least one 
-        /// of the query parameters (as_epq, as_lq, as_oq, as_q, as_rq) to get search results.
-        /// TODO: Implement as_eqp, as_lq etc and update these docs
+        /// of the query parameters (AdvancedSearchPhraseQuery, AdvancedSearchRequiredLink, as_oq, as_q, as_rq) to get search results.
+        /// TODO: Implement etc and update these docs
         /// </summary>
         /// <see cref="http://www.google.com/cse/docs/resultsxml.html#qsp"/>
         public string SearchTerm { get; set; }
@@ -59,24 +58,53 @@
         /// <see cref="http://www.google.com/cse/docs/resultsxml.html#startsp"/>
         public int Start { get; set; }
 
-        // TODO: implement the as_dt parameter and update this documentation
+        /// <summary>
+        /// Gets or sets a value which controls whether to include or exclude results from the site named in the AdvancedSearchSite parameter.
+        /// This parameter is optional.
+        /// </summary>
+        public DomainInclusion AdvancedSearchDomainInclusion { get; set; }
+        //// Represents as_dt: http://www.google.com/cse/docs/resultsxml.html#as_dtsp
+
+        /// <summary>
+        /// Gets or sets a value which identifies a phrase that all documents in the search results must not contain. 
+        /// You can also use <see cref="http://www.google.com/cse/docs/resultsxml.html#Excludeqt">the exclude query term</see> to ensure that a particular word or phrase will not appear in the documents in a set of search results.
+        /// This parameter is optional.
+        /// </summary>
+        public string AdvancedSearchExcludePhraseQuery { get; set; }
+        //// Represents as_eq: http://www.google.com/cse/docs/resultsxml.html#as_eqsp
+
+        /// <summary>
+        /// Gets or sets a value which identifies a phrase that all documents in the search results must contain. 
+        /// You can also use <see cref="http://www.google.com/cse/docs/resultsxml.html#PhraseSearchqt">the phrase search query term</see> to search for a phrase.
+        /// This parameter is optional.
+        /// </summary>
+        public string AdvancedSearchPhraseQuery { get; set; }
+        //// Represents as_epq: http://www.google.com/cse/docs/resultsxml.html#as_epqsp
+
+        /// <summary>
+        /// Gets or sets a value which specifies that all search results should contain a link to a particular URL.<para/>
+        /// You can also use <see cref="http://www.google.com/cse/docs/resultsxml.html#BackLinksqt">the link query term</see> for this type of query.
+        /// This parameter is optional.
+        /// </summary>
+        public Uri AdvancedSearchRequiredLink { get; set; }
+        //// Represents as_lq: http://www.google.com/cse/docs/resultsxml.html#as_lqsp
 
         /// <summary>
         /// Gets or sets a URL that specifies that all search results should be pages from a given site. 
         /// By setting the as_dt parameter, you can also use it to exclude pages from a given site from your search resutls.
+        /// This parameter is optional.
         /// </summary>
         public Uri AdvancedSearchSite { get; set; }
+        //// Represents as_sitesearch: http://www.google.com/cse/docs/resultsxml.html#as_sitesearchsp
 
         /// <summary>
         /// <para>Gets a list of filetypes with which to restrict the search results to documents with a particular file extension, such as ".pdf" or ".doc".</para>
         /// Filetypes with a true value will be included, false will be excluded.
+        /// This parameter is optional.
         /// </summary>
         public Dictionary<string, bool> FileTypes { get; private set; }
-
-
-
-
-        // TODO: Possibly swap encoding for a built in type
+        //// Represents File Type Exclusion: http://www.google.com/cse/docs/resultsxml.html#FileTypeExclusionqt
+        //// and File Type Filtering: http://www.google.com/cse/docs/resultsxml.html#FileTypeFilteringqt
         
         /// <summary>
         /// Gets or sets the Encoding parameter which sets the character encoding scheme that should be used to decode the XML result.
@@ -86,10 +114,8 @@
         /// </summary>
         /// <see cref="http://www.google.com/cse/docs/resultsxml.html#oesp"/>
         public string Encoding { get; set; }
+        //// TODO: Possibly swap encoding for a built in type
         
-        // TODO: Format is not really something the user needs to wory about. As long as the system works.
-        // TODO: Need to research if there is any benefit to using the DTD or not.
-
         /// <summary>
         /// Gets or sets the Format parameter which specifies the format of the XML results. 
         /// The only valid values for this parameter are specified in the OutputFormat enumeration as OutputFormat.XML
@@ -98,6 +124,8 @@
         /// </summary>
         /// <see cref="http://www.google.com/cse/docs/resultsxml.html#outputsp"/>
         internal OutputFormat Format { get; set; }
+        //// TODO: Format is not really something the user needs to wory about. As long as the system works.
+        //// TODO: Need to research if there is any benefit to using the DTD or not.
 
         /// <summary>
         /// Creates a new QueryParameters object that is a copy of the current instance.
