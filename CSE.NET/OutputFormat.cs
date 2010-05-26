@@ -12,6 +12,7 @@
         /// </summary>
         /// <example>&lt;!DOCTYPE GSP SYSTEM "google.dtd"&gt;</example>
         Xml,
+
         /// <summary>
         /// The XML results will not include a !DOCTYPE statement (recommended).
         /// </summary>

@@ -3,6 +3,9 @@
     using System;
     using System.Net.Mime;
 
+    /// <summary>
+    /// Represents an individual search result.
+    /// </summary>
     public class Result
     {
         /// <summary>
@@ -30,8 +33,14 @@
         /// </summary>
         public string Excerpt { get; internal set; }
 
+        /// <summary>
+        /// Gets the data that the page represented by this Result was crawled by Googlebot.
+        /// </summary>
         public DateTime CrawlDate { get; internal set; }
 
+        /// <summary>
+        /// Gets the MIME-Type of this Result.
+        /// </summary>
         public ContentType MimeType { get; internal set; }
     }
 }

@@ -6,8 +6,8 @@
     public class SearchResult
     {
         /// <summary>
-        /// Initializes a new instance of the Google.CustomSearch.SearchResult class specifying 
-        /// the ResultCollection to populate this SearchResult.
+        /// Initializes a new instance of the Google.CustomSearch.SearchResult 
+        /// class specifying the ResultCollection to populate this SearchResult.
         /// </summary>
         /// <param name="results">The ResultCollection to populate this SearchResult</param>
         public SearchResult(ResultCollection results)
@@ -16,6 +16,10 @@
             this.Results = results;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the Google.CustomSearch.SearchResult 
+        /// class with default values.
+        /// </summary>
         internal SearchResult()
         {
             this.Facets = new FacetCollection();
@@ -24,6 +28,11 @@
             this.Parameters = new QueryParameters();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the Google.CustomSearch.SearchResult 
+        /// class specifiying the QueryParameters used to generate this result set.
+        /// </summary>
+        /// <param name="parameters">The query parameters used to generate this result set.</param>
         internal SearchResult(QueryParameters parameters)
             : this()
         {
@@ -41,15 +50,18 @@
         public int EndIndex { get; internal set; }
 
         /// <summary>
-        /// Gets a boolean indicating that the estimated total number of results, as specified by the Total property, 
-        /// actually represents the exact total number of results. 
-        /// See the <see cref="http://www.google.com/cse/docs/resultsxml.html#automaticFiltering">Automatic Filtering</see> section of this document for more details.
+        /// Gets a value indicating whether the estimated total number of results, 
+        /// as specified by the Total property, actually represents the exact 
+        /// total number of results. 
+        /// See the <see cref="http://www.google.com/cse/docs/resultsxml.html#automaticFiltering">Automatic Filtering</see>
+        /// section of this document for more details.
         /// </summary>
         public bool Exact { get; internal set; }
 
         /// <summary>
-        /// Gets a flag that indicates whether document filtering was performed for the search. 
-        /// See the <see cref="http://www.google.com/cse/docs/resultsxml.html#automaticFiltering">Automatic Filtering</see> section of this document for more information about Google's search results filters.
+        /// Gets a value indicating whether document filtering was performed for the search. 
+        /// See the <see cref="http://www.google.com/cse/docs/resultsxml.html#automaticFiltering">Automatic Filtering</see>
+        /// section of this document for more information about Google's search results filters.
         /// </summary>
         public bool Filtered { get; internal set; }
 
