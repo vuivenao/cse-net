@@ -17,6 +17,7 @@
             this.FileTypes = new Dictionary<string, bool>(); 
             this.Format = OutputFormat.XmlNoDtd;
             this.Safe = SafeSearch.Off;
+            this.SpecialQueryTerms = new SpecialQueryTerms();
         }
 
         /// <summary>
@@ -116,6 +117,12 @@
         public string Encoding { get; set; }
         //// TODO: Possibly swap encoding for a built in type
         
+        /// <summary>
+        /// Gets a SpecialQueryTerms object allowing you to access additional capabilities of the Google search engine.
+        /// </summary>
+        /// <see cref="http://www.google.com/cse/docs/resultsxml.html#wsSpecialQueryTerms"/>
+        public SpecialQueryTerms SpecialQueryTerms { get; private set; }
+
         /// <summary>
         /// Gets or sets the Format parameter which specifies the format of the XML results. 
         /// The only valid values for this parameter are specified in the OutputFormat enumeration as OutputFormat.XML
