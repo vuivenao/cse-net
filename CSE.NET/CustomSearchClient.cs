@@ -150,6 +150,11 @@
                 queryParameters["q"] += "+more:" + input.Filter.Label;
             }
 
+            foreach (string word in input.SpecialQueryTerms.InUrl)
+            {
+                queryParameters["q"] += "+inurl:" + word;
+            }
+
             queryParameters.Add("num", input.Count.ToString());
             queryParameters.Add("start", input.Start.ToString());
 

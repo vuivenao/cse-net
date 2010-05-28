@@ -60,6 +60,7 @@
     <Compile Include="ResultCollection.cs" />
     <Compile Include="SafeSearch.cs" />
     <Compile Include="SearchResult.cs" />
+    <Compile Include="SpecialQueryTerms.cs" />
     <Compile Include="Suggestion.cs" />
     <Compile Include="SuggestionCollection.cs" />
   </ItemGroup>
