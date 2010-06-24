@@ -199,9 +199,16 @@
                 bool firstType = true;
                 foreach (var pair in input.FileTypes)
                 {
+                    string combinator = " OR";
                     string type = string.Format(" filetype:{0}", pair.Key.TrimStart('.'));
-                    if (!pair.Value) type = " -" + type.TrimStart();
-                    if (!firstType) type = " OR" + type;
+                    if (!pair.Value)
+                    {
+                        type = " -" + type.TrimStart();
+                        combinator = " AND"; 
+                        // TODO: This logic is not perfect, do the terms need encapsulating in parens?
+                        // What happens when some are ANDs and some need to be OR'd ?
+                    }
+                    if (!firstType) type = combinator + type;
                     queryParameters["q"] += type;
                     firstType = false;
                 }
