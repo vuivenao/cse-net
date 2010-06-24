@@ -145,80 +145,98 @@
             queryParameters.Add("cx", this.CseID);
             queryParameters.Add("client", "google-csbe");
             queryParameters.Add("q", input.SearchTerm);
-            if (input.Filter != null)
-            {
-                queryParameters["q"] += "+more:" + input.Filter.Label;
-            }
 
-            foreach (string word in input.SpecialQueryTerms.InUrl)
+            if (null != input.SpecialQueryTerms.BackLinks)
             {
-                queryParameters["q"] += "+inurl:" + word;
-            }
-
-            queryParameters.Add("num", input.Count.ToString());
-            queryParameters.Add("start", input.Start.ToString());
-
-            if (OutputFormat.Xml == input.Format)
-            {
-                queryParameters.Add("output", "xml");
+                // Note: You cannot specify any other query terms when using link:
+                queryParameters["p"] = string.Format("link:{0}", input.SpecialQueryTerms.BackLinks.ToString());
             }
             else
             {
-                queryParameters.Add("output", "xml_no_dtd");
-            }
-
-            if (SafeSearch.Off != input.Safe)
-            {
-                string value = "medium";
-                if (SafeSearch.High == input.Safe)
+                if (input.Filter != null)
                 {
-                    value = "high";
+                    queryParameters["q"] += "+more:" + input.Filter.Label;
                 }
 
-                queryParameters.Add("safe", value);
-            }
-
-            // Special search options
-            bool firstType = true;
-            foreach (var pair in input.FileTypes)
-            {
-                string type = string.Format(" filetype:{0}", pair.Key.TrimStart('.'));
-                if (!pair.Value) type = " -" + type.TrimStart(); 
-                if (!firstType) type = " OR" + type;
-                queryParameters["q"] += type;
-                firstType = false;
-            }
-
-            // Advanced search options
-            if (null != input.AdvancedSearchSite)
-            {
-                queryParameters.Add("as_sitesearch", input.AdvancedSearchSite.ToString());
-            }
-
-            if (null != input.AdvancedSearchSite)
-            {
-                string value = "i";
-                if (DomainInclusion.Exclude == input.AdvancedSearchDomainInclusion)
+                foreach (string word in input.SpecialQueryTerms.InUrl)
                 {
-                    value = "e";
+                    queryParameters["q"] += "+inurl:" + word;
                 }
 
-                queryParameters.Add("as_dt", value);
-            }
+                queryParameters.Add("num", input.Count.ToString());
+                queryParameters.Add("start", input.Start.ToString());
 
-            if (!string.IsNullOrEmpty(input.AdvancedSearchPhraseQuery))
-            {
-                queryParameters.Add("as_epq", input.AdvancedSearchPhraseQuery);
-            }
+                if (OutputFormat.Xml == input.Format)
+                {
+                    queryParameters.Add("output", "xml");
+                }
+                else
+                {
+                    queryParameters.Add("output", "xml_no_dtd");
+                }
 
-            if (!string.IsNullOrEmpty(input.AdvancedSearchExcludePhraseQuery))
-            {
-                queryParameters.Add("as_eq", input.AdvancedSearchExcludePhraseQuery);
-            }
+                // Safe search defaults to off.
+                if (SafeSearch.Off != input.Safe)
+                {
+                    string value = "medium";
+                    if (SafeSearch.High == input.Safe)
+                    {
+                        value = "high";
+                    }
 
-            if (null != input.AdvancedSearchRequiredLink)
-            {
-                queryParameters.Add("as_lq", input.AdvancedSearchRequiredLink.ToString());
+                    queryParameters.Add("safe", value);
+                }
+
+                // Special search options.
+
+                // Exclude Query Terms
+                foreach (string term in input.SpecialQueryTerms.ExcludeQueryTerms)
+                {
+                    queryParameters["q"] += string.Format(" -{0}", term);
+                }
+
+                // File type filtering
+                bool firstType = true;
+                foreach (var pair in input.FileTypes)
+                {
+                    string type = string.Format(" filetype:{0}", pair.Key.TrimStart('.'));
+                    if (!pair.Value) type = " -" + type.TrimStart();
+                    if (!firstType) type = " OR" + type;
+                    queryParameters["q"] += type;
+                    firstType = false;
+                }
+
+                // Advanced search options.
+                if (null != input.AdvancedSearchSite)
+                {
+                    queryParameters.Add("as_sitesearch", input.AdvancedSearchSite.ToString());
+                }
+
+                if (null != input.AdvancedSearchSite)
+                {
+                    string value = "i";
+                    if (DomainInclusion.Exclude == input.AdvancedSearchDomainInclusion)
+                    {
+                        value = "e";
+                    }
+
+                    queryParameters.Add("as_dt", value);
+                }
+
+                if (!string.IsNullOrEmpty(input.AdvancedSearchPhraseQuery))
+                {
+                    queryParameters.Add("as_epq", input.AdvancedSearchPhraseQuery);
+                }
+
+                if (!string.IsNullOrEmpty(input.AdvancedSearchExcludePhraseQuery))
+                {
+                    queryParameters.Add("as_eq", input.AdvancedSearchExcludePhraseQuery);
+                }
+
+                if (null != input.AdvancedSearchRequiredLink)
+                {
+                    queryParameters.Add("as_lq", input.AdvancedSearchRequiredLink.ToString());
+                }
             }
 
             foreach (var pair in queryParameters)
