@@ -76,6 +76,9 @@
         public SearchResult Search(QueryParameters queryParameters)
         {
             Uri requestUri = this.FormatRequest(queryParameters);
+
+            Debug.WriteLine(string.Format("Request Google : {0}", requestUri.ToString()));
+
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(requestUri);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             return this.ProcessResponse(queryParameters, response);
@@ -243,6 +246,30 @@
                 if (null != input.AdvancedSearchRequiredLink)
                 {
                     queryParameters.Add("as_lq", input.AdvancedSearchRequiredLink.ToString());
+                }
+
+                // Sort options
+                if (input.Sort.Type != Sort.SortType.Relevance) // Sort by relevance is the Google default sort, so no need to explicitly specify the sort
+                {
+                    string qs = null;
+                    if (input.Sort.Type == Sort.SortType.Date)
+                    {
+                        qs = "date";
+                        qs += (input.Sort.Direction == Sort.SortDirection.Ascending ? ":a" : ":d");
+                    }
+                    if (input.Sort.Type == Sort.SortType.Attribute)
+                    {
+                        qs = input.Sort.Attribute;
+                        qs += (input.Sort.Direction == Sort.SortDirection.Ascending ? ":a" : ":d");
+                        switch (input.Sort.Strength)
+                        {
+                            case Sort.SortStrength.Strong: qs += ":s"; break;
+                            case Sort.SortStrength.Weak:   qs += ":w"; break;
+                            default:                       qs += ":h"; break;
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(qs))
+                        queryParameters.Add("sort", qs);
                 }
             }
 

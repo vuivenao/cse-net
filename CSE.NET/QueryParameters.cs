@@ -18,6 +18,7 @@
             this.Format = OutputFormat.XmlNoDtd;
             this.Safe = SafeSearch.Off;
             this.SpecialQueryTerms = new SpecialQueryTerms();
+            this.Sort = new Sort();
         }
 
         /// <summary>
@@ -124,6 +125,13 @@
         public SpecialQueryTerms SpecialQueryTerms { get; private set; }
 
         /// <summary>
+        /// Gets a Sort object allowing access to the sort/bias capabilities of the Google search engine.
+        /// </summary>
+        /// <see cref="http://code.google.com/apis/customsearch/docs/structured_search.html#sort_by_attribute"/>
+        /// <see cref="http://code.google.com/apis/customsearch/docs/structured_search.html#bias_by_attribute"/>
+        public Sort Sort { get; private set; }
+
+        /// <summary>
         /// Gets or sets the Format parameter which specifies the format of the XML results. 
         /// The only valid values for this parameter are specified in the OutputFormat enumeration as OutputFormat.XML
         /// and OutputFormat.XmlNoDtd.
@@ -147,7 +155,8 @@
                 Filter = this.Filter,
                 Format = this.Format,
                 SearchTerm = this.SearchTerm,
-                Start = this.Start
+                Start = this.Start,
+                Sort = this.Sort.Clone()
             };
         }
 
