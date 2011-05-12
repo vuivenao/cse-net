@@ -146,23 +146,50 @@
         /// <returns>Returns a populated Google.CustomSearch.Result object.</returns>
         private Result ParseResult(XPathNavigator navigator)
         {
-            string mimeType = navigator.GetAttribute("MIME", string.Empty);
-            if (string.IsNullOrEmpty(mimeType)) mimeType = "text/html";
+            // Get result values in a cautious manner as not all attributes/nodes always exist
+
+            int id = 0;
+            int.TryParse(navigator.GetAttribute("N", string.Empty), out id);
+
+            string title = null;
+            XPathNavigator titleNode = navigator.SelectSingleNode("T");
+            if (titleNode != null)
+                title = titleNode.Value;
+
+            string excerpt = null;
+            XPathNavigator excerptNode = navigator.SelectSingleNode("S");
+            if (excerptNode != null)
+                excerpt = excerptNode.Value;
+
+            Uri uri = null;
+            XPathNavigator uriNode = navigator.SelectSingleNode("U");
+            if (uriNode != null)
+                uri = new Uri(uriNode.Value);
+
+            string escapedUrl = null;
+            XPathNavigator escapedUrlNode = navigator.SelectSingleNode("UE");
+            if (escapedUrlNode != null)
+                escapedUrl = escapedUrlNode.Value;
+
+            string mimeTypeStr = navigator.GetAttribute("MIME", string.Empty);
+            if (string.IsNullOrEmpty(mimeTypeStr))
+                mimeTypeStr = "text/html";
+            ContentType mimeType = new ContentType(mimeTypeStr);
 
             Result result = new Result()
             {
-                Id = int.Parse(navigator.GetAttribute("N", string.Empty)),
-                Title = navigator.SelectSingleNode("T").Value,
-                Excerpt = navigator.SelectSingleNode("S").Value,
-                Uri = new Uri(navigator.SelectSingleNode("U").Value),
-                EscapedUrl = navigator.SelectSingleNode("UE").Value,
-                MimeType = new ContentType(mimeType)
+                Id = id,
+                Title = title,
+                Excerpt = excerpt,
+                Uri = uri,
+                EscapedUrl = escapedUrl,
+                MimeType = mimeType
             };
-            
-            XPathNavigator crawlNode = navigator.SelectSingleNode("CRAWLDATE");
-            string crawlDate = string.Empty;
-            if (null != crawlNode)
-                crawlDate = crawlNode.Value;
+
+            string crawlDate = null;
+            XPathNavigator crawlDateNode = navigator.SelectSingleNode("CRAWLDATE");
+            if (crawlDateNode != null)
+                crawlDate = crawlDateNode.Value;
 
             if (!string.IsNullOrEmpty(crawlDate))
             {
