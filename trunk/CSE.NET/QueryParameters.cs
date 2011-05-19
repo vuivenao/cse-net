@@ -17,6 +17,7 @@
             this.FileTypes = new Dictionary<string, bool>(); 
             this.Format = OutputFormat.XmlNoDtd;
             this.Safe = SafeSearch.Off;
+            this.AutoFilter = true;
             this.SpecialQueryTerms = new SpecialQueryTerms();
             this.Sort = new Sort();
         }
@@ -43,6 +44,13 @@
         /// See the <see cref="http://www.google.com/cse/docs/resultsxml.html#safeSearchLevels">Filtering Adult Content with SafeSearch</see> section for more details about this feature.
         /// </summary>
         public SafeSearch Safe { get; set; }
+
+        /// <summary>
+        /// Gets or sets the filter parameter which activates or deactivates the automatic filtering of Google search results.
+        /// The default value for the filter parameter is true.
+        /// </summary>
+        /// <see cref="http://www.google.com/cse/docs/resultsxml.html#WebSearch_Query_Parameter_Definitions"/>
+        public bool AutoFilter { get; set; }
 
         /// <summary>
         /// Gets or sets the SearchTerm parameter which specifies the search query entered by the user. 
@@ -153,6 +161,7 @@
                 Count = this.Count,
                 Encoding = this.Encoding,
                 Filter = this.Filter,
+                AutoFilter = this.AutoFilter,
                 Format = this.Format,
                 SearchTerm = this.SearchTerm,
                 Start = this.Start,
