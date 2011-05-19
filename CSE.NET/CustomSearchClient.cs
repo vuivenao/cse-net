@@ -186,8 +186,13 @@
                     {
                         value = "high";
                     }
-
                     queryParameters.Add("safe", value);
+                }
+
+                // Auto filter defaults to true
+                if (!input.AutoFilter)
+                {
+                    queryParameters.Add("filter", "0");
                 }
 
                 // Special search options.
